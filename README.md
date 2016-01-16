@@ -121,6 +121,39 @@ In Ruby 1.9:
     rake test TESTOPTS="--no-canonicalize --autoaccept"
 
 
+## Development
+
+
+One way to setup development environment using rbenv:
+
+```bash
+# compile ruby
+rbenv install 2.3.0
+
+# set local version of ruby under rbenv
+rbenv local 2.3.0
+
+# install bundler
+gem install bundle
+
+# configure bundler
+bundle config --local gemfile gemfiles/test-unit.gemfile
+bundle config --local path .bundle/gems
+bundle config --local bin .bundle/bin    # binstubs
+bundle config   # to see current settings
+
+# below seems to be necessary, having a Gemfile in
+# subdirectory seems to break when running tests
+ln -s gemfiles/test-unit.gemfile Gemfile.test-unit
+bundle config --local gemfile Gemfile.test-unit
+
+# install gems
+bundle install
+
+# run tests
+bundle exec rake test
+```
+
 ## Changelog
 
 - 1.5: Improve support for various testing frameworks and Ruby versions:
